@@ -4,13 +4,19 @@ buildscript {
     repositories {
         google()
         jcenter()
-        
+        maven {
+            url "https://maven.chirp.io/release"
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.0'
         
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+
+
+        //Firebase Database
+        classpath 'com.google.gms:google-services:4.3.2'
     }
 }
 
@@ -18,6 +24,9 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven {
+            url "https://maven.chirp.io/release"
+        }
         
     }
 }

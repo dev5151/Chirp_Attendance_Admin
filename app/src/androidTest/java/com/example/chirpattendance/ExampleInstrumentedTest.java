@@ -1,4 +1,4 @@
-package com.example.chirpattendanceadmin;
+package com.example.chirpattendance;
 
 import android.content.Context;
 
