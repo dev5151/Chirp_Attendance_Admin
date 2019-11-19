@@ -46,6 +46,8 @@ dependencies {
     //Chirp implementation
     implementation "io.chirp:chirpsdk:3.10.1"
 
+    //Lottie implementation
+    implementation 'com.airbnb.android:lottie:2.8.0'
 
 }
 //Firebase plugin

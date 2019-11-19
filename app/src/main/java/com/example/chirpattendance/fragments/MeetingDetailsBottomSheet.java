@@ -11,7 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.example.chirpattendance.R;
-import com.example.chirpattendance.activities.MainActivity;
+import com.example.chirpattendance.activities.RoomActivity;
 import com.example.chirpattendance.models.UserRoom;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.database.DataSnapshot;
@@ -71,9 +71,11 @@ public class MeetingDetailsBottomSheet extends BottomSheetDialogFragment {
         {
             pushRoomKey();
             createUserRoom(location.getText().toString(), agenda.getText().toString(), Integer.parseInt(duration.getText().toString()));
-            MeetingDetailsBottomSheet bottomSheet = new MeetingDetailsBottomSheet();
-            bottomSheet.dismiss();
-            MainActivity.getChirpAttendance().goToSendKey(Id);
+            agenda.setText("");
+            location.setText("");
+            duration.setText("");
+            RoomActivity.getChirpAttendance().hideBottomSheet();
+            RoomActivity.getChirpAttendance().goToSendKey(Id);
         }
         else
         {
@@ -92,14 +94,14 @@ public class MeetingDetailsBottomSheet extends BottomSheetDialogFragment {
         assert pushId!= null;
         Id = pushId;
         Id = String.valueOf(generateHash(Id)).substring(0, 5);
-        reference.child("Admin").child(MainActivity.getOrganizationKey()).child("rooms")
+        reference.child("Admin").child(RoomActivity.getOrganizationKey()).child("rooms")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         while(dataSnapshot.child(Id).exists()) {
                             Id = String.valueOf(generateHash(Id)).substring(0, 5);
                         }
-                        reference.child("Admin").child(MainActivity.getOrganizationKey()).child("rooms")
+                        reference.child("Admin").child(RoomActivity.getOrganizationKey()).child("rooms")
                                 .push().setValue(Id);
                     }
                     @Override

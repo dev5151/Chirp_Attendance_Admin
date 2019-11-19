@@ -1,15 +1,19 @@
 package com.example.chirpattendance.fragments;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.chirpattendance.R;
+import com.example.chirpattendance.activities.LoginActivity;
 import com.example.chirpattendance.adapters.ImageSliderAdapter;
 
 import java.util.Timer;
@@ -20,6 +24,7 @@ public class FragmentLaunchingActivity extends Fragment {
     private ViewPager viewPager;
     private Timer timer;
     private int[] images = {R.drawable.ic_undraw_exams, R.drawable.ic_undraw_community, R.drawable.ic_undraw_conference};
+    private ImageView enter;
 
     public FragmentLaunchingActivity() {
     }
@@ -32,6 +37,7 @@ public class FragmentLaunchingActivity extends Fragment {
         viewPager = rootView.findViewById(R.id.image_slider_view_pager);
         ImageSliderAdapter adapter = new ImageSliderAdapter(getContext(), images);
         viewPager.setAdapter(adapter);
+        enter = rootView.findViewById(R.id.custom_button_launching_fragment);
 
         final Handler handler = new Handler();
         final Runnable update = new Runnable() {
@@ -44,6 +50,14 @@ public class FragmentLaunchingActivity extends Fragment {
             }
         };
 
+        enter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                getActivity().finish();
+                startActivity(intent);
+            }
+        });
 
         timer = new Timer();
         timer.schedule(new TimerTask() {

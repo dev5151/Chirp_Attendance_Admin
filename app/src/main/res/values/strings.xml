@@ -15,5 +15,5 @@
     <string name="duration">Enter Meeting Duration In Mins</string>
     <string name="meeting_duration">Enter Meeting Duration</string>
     <string name="agenda">Enter Agenda</string>
-    <string name="total_rooms">All Meetings Taken By You</string>
+    <string name="total_meeting">All Meetings Taken By You</string>
 </resources>
