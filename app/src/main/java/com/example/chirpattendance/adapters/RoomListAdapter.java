@@ -1,7 +1,7 @@
 package com.example.chirpattendance.adapters;
 
 import android.content.Context;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +10,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.chirpattendance.R;
-import com.example.chirpattendance.activities.PreviousMeeting;
 import com.example.chirpattendance.activities.RoomActivity;
 import com.example.chirpattendance.models.RoomList;
-import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -50,19 +49,14 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.ViewHo
         RoomList roomList = list.get(position);
         holder.agenda.setText(roomList.getAgenda());
         holder.location.setText(roomList.getLocation());
-
         long startingUnixTime = Long.parseLong(roomList.getStartingUnixTime())*1000L;
         long endingUnixTime = Long.parseLong(roomList.getEndingUnixTime())*1000L;
-
         Date d1 = new Date(startingUnixTime);
         Date d2 = new Date(endingUnixTime);
         String date = new SimpleDateFormat("dd MMMM yyyy").format(d1);
-
         holder.date.setText(date);
-
         String t1 = new SimpleDateFormat("HH:mm").format(d1);
         String t2 = new SimpleDateFormat("HH:mm").format(d2);
-
         holder.time.setText(t1+"-"+t2);
     }
 
@@ -77,7 +71,8 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.ViewHo
         public TextView location;
         public TextView date;
         public TextView time;
-
+        public TextView more;
+        public TextView less;
 
         public ViewHolder(@NonNull final View itemView) {
             super(itemView);
@@ -85,8 +80,28 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.ViewHo
             location = (TextView) itemView.findViewById(R.id.location_text_view_recycler_view);
             time = (TextView) itemView.findViewById(R.id.time_text_view_recycler_view);
             date = (TextView) itemView.findViewById(R.id.date_text_view_recycler_view);
+            more = (TextView) itemView.findViewById(R.id.more_text_view);
+            less = (TextView) itemView.findViewById(R.id.less_text_view);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            more.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    location.setVisibility(View.VISIBLE);
+                    less.setVisibility(View.VISIBLE);
+                    more.setVisibility(View.GONE);
+                }
+            });
+
+            less.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    location.setVisibility(View.GONE);
+                    less.setVisibility(View.GONE);
+                    more.setVisibility(View.VISIBLE);
+                }
+            });
+
+           /* itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int Position = getAdapterPosition();
@@ -130,10 +145,13 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.ViewHo
                                     toast.show();
                                 }
                                 else {
-                                    Snackbar.make(view, "Cancel Meeting", Snackbar.LENGTH_SHORT)
-                                            .setAction("Cancel", new View.OnClickListener() {
+
+                                    new MaterialAlertDialogBuilder(context, R.style.Theme_MaterialComponents_DayNight_Dialog_Alert)
+                                            .setTitle("Cancel Meeting")
+                                            .setMessage("Do You Want To Cancel Meeting?")
+                                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                                 @Override
-                                                public void onClick(View view) {
+                                                public void onClick(DialogInterface dialogInterface, int i) {
                                                     reference.child("rooms").child(hashedKey).getRef().setValue(null);
                                                     reference.child("Admin").child(RoomActivity.getOrganizationKey()).child("rooms").addValueEventListener(new ValueEventListener() {
                                                         @Override
@@ -153,6 +171,7 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.ViewHo
                                                     });
                                                 }
                                             })
+                                            .setNegativeButton("No", null)
                                             .show();
                                 }
                             }
@@ -165,7 +184,7 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.ViewHo
                     });
                     return true;
                 }
-            });
+            });*/
         }
 
     }

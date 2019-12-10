@@ -1,19 +1,28 @@
 <resources>
-    <string name="app_name">Chirp Attendance Admin</string>
+    <string name="app_name">Head Count</string>
     <string name="admin_login">Admin Login</string>
     <string name="login">Login</string>
     <string name="admin_key">Admin Key</string>
     <string name="head_count">Head Count</string>
     <string name="enter">Enter</string>
-    <string name="admin_password">Admin Password</string>
+    <string name="password">Password</string>
     <string name="attendance">Take Attendance In Meeting</string>
+    <string name="attendees">Attendees</string>
+    <string name="defaulters">Defaulters</string>
     <string name="proceed">PROCEED</string>
+    <string name="less">Less</string>
+    <string name="more">More</string>
+    <string name="logout">Logout</string>
+    <string name="back">Back</string>
+    <string name="sign_up">Sign Up</string>
     <string name="details">DETAILS</string>
     <string name="room_name">Room Name</string>
     <string name="location">Enter Location</string>
-    <string name="meeting_details">Enter Meeting Details</string>
+    <string name="meeting_details">Meeting Details</string>
     <string name="duration">Enter Meeting Duration In Mins</string>
     <string name="meeting_duration">Enter Meeting Duration</string>
     <string name="agenda">Enter Agenda</string>
-    <string name="total_meeting">All Meetings Taken By You</string>
+    <string name="meeting">Meetings</string>
+    <string name="organization_name">Organization Name</string>
+    <string name="custom_key">Custom Key</string>
 </resources>

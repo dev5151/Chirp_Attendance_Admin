@@ -9,4 +9,9 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+
+    <style name="MineCustomTabText" parent="TextAppearance.AppCompat.Widget.PopupMenu.Header">
+        <item name="android:textSize">40sp</item>
+    </style>
+
 </resources>

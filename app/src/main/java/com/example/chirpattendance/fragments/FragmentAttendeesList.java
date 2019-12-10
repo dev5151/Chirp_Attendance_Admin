@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -30,7 +28,7 @@ public class FragmentAttendeesList extends Fragment {
     private RecyclerView recyclerView;
     private AttendeesListAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    private ProgressBar progressBar;
+
 
     public FragmentAttendeesList() {
     }
@@ -39,12 +37,11 @@ public class FragmentAttendeesList extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_attendees_defaulters_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_attendees_list, container, false);
         initialize(rootView);
-        getAttendeesList();
+        //getAttendeesList();
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-        RoomActivity.getChirpAttendance().topBarSetText("Attendees List");
         return rootView;
     }
 
@@ -55,11 +52,11 @@ public class FragmentAttendeesList extends Fragment {
         recyclerView = rootView.findViewById(R.id.recycler_attendees_defaulters_list_view);
         adapter = new AttendeesListAdapter(attendeeList);
         layoutManager = new LinearLayoutManager(getContext());
-        progressBar = rootView.findViewById(R.id.progress_bar_attendees_defaulters_list);
+
     }
 
     private void getAttendeesList() {
-        progressBar.setVisibility(View.VISIBLE);
+
         String h = RoomActivity.getHashedKey();
         reference.child("rooms").child(RoomActivity.getHashedKey()).child("attendees").addValueEventListener(new ValueEventListener() {
             @Override
@@ -87,19 +84,18 @@ public class FragmentAttendeesList extends Fragment {
                             }
                         }
                         adapter.notifyDataSetChanged();
-                        progressBar.setVisibility(View.INVISIBLE);
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-                        progressBar.setVisibility(View.INVISIBLE);
+
                     }
                 });
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                progressBar.setVisibility(View.INVISIBLE);
+
             }
         });
     }

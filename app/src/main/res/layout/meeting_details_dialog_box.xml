@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    app:layout_constraintCircleRadius="30dp">
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="40dp"
+        android:background="@color/dark_blue"
+        android:fontFamily="@font/red_hat_display_medium"
+        android:text="Create"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/meeting_duration_edit_text_bottom_sheet"
+        app:layout_constraintStart_toStartOf="@+id/meeting_duration_edit_text_bottom_sheet"
+        app:layout_constraintTop_toBottomOf="@+id/meeting_duration_edit_text_bottom_sheet" />
+
+    <EditText
+        android:id="@+id/agenda_edit_text_bottom_sheet"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/custom_edit_text"
+        android:fontFamily="@font/saira_regular"
+        android:hint="@string/agenda"
+        android:paddingStart="20dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/room_location_edit_text_bottom_sheet"
+        app:layout_constraintStart_toStartOf="@+id/room_location_edit_text_bottom_sheet"
+        app:layout_constraintTop_toBottomOf="@+id/room_location_edit_text_bottom_sheet" />
+
+    <EditText
+        android:id="@+id/meeting_duration_edit_text_bottom_sheet"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/custom_edit_text"
+        android:fontFamily="@font/saira_regular"
+        android:hint="@string/duration"
+        android:inputType="numberDecimal"
+        android:paddingStart="20dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/agenda_edit_text_bottom_sheet"
+        app:layout_constraintStart_toStartOf="@+id/agenda_edit_text_bottom_sheet"
+        app:layout_constraintTop_toBottomOf="@+id/agenda_edit_text_bottom_sheet" />
+
+    <EditText
+        android:id="@+id/room_location_edit_text_bottom_sheet"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/custom_edit_text"
+        android:fontFamily="@font/saira_regular"
+        android:hint="@string/location"
+        android:paddingStart="20dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/red_hat_display_medium"
+        android:text="@string/meeting_details"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.082"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -40,18 +40,16 @@ public class FragmentPreviousMeetingDeafaultersList extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_attendees_defaulters_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_defaulters_list, container, false);
 
         initialize(rootView);
-        getAttendeesList();
+        /*getAttendeesList();
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-        PreviousMeeting.getPreviousMeetingInterface().topBarSetText("Defaulters List");
+        recyclerView.setAdapter(adapter);*/
         return rootView;
     }
 
     private void getAttendeesList() {
-        progressBar.setVisibility(View.VISIBLE);
         reference.child("rooms").child(PreviousMeeting.getRoomKey()).child("defaulters").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -79,12 +77,10 @@ public class FragmentPreviousMeetingDeafaultersList extends Fragment {
                                 }
                             }
                             adapter.notifyDataSetChanged();
-                            progressBar.setVisibility(View.INVISIBLE);
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-                            progressBar.setVisibility(View.INVISIBLE);
                         }
                     });
                 }
@@ -92,7 +88,6 @@ public class FragmentPreviousMeetingDeafaultersList extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                progressBar.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -105,6 +100,6 @@ public class FragmentPreviousMeetingDeafaultersList extends Fragment {
         adapter = new AttendeesListAdapter(attendeeList);
         uniqueNumber = new ArrayList<>();
         layoutManager = new LinearLayoutManager(getContext());
-        progressBar = rootView.findViewById(R.id.progress_bar_attendees_defaulters_list);
+
     }
 }

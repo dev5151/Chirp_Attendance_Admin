@@ -5,11 +5,14 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+
 import com.example.chirpattendance.R;
 import com.example.chirpattendance.activities.RoomActivity;
 import com.example.chirpattendance.models.UserRoom;
@@ -22,16 +25,16 @@ import com.google.firebase.database.ValueEventListener;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class MeetingDetailsBottomSheet extends BottomSheetDialogFragment {
+public class MeetingDetailsDialogBox extends DialogFragment {
 
-    private ImageView proceed;
     private EditText agenda;
     private EditText location;
     private EditText duration;
     private DatabaseReference reference;
     private String Id;
+    private Button createButton;
 
-    public MeetingDetailsBottomSheet() {
+    public MeetingDetailsDialogBox() {
     }
 
     @Override
@@ -44,11 +47,11 @@ public class MeetingDetailsBottomSheet extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.bottom_sheet, container, false);
+        View rootView = inflater.inflate(R.layout.meeting_details_dialog_box, container, false);
 
         initializeViews(rootView);
 
-        proceed.setOnClickListener(new View.OnClickListener() {
+        createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 createRoom();
@@ -59,11 +62,11 @@ public class MeetingDetailsBottomSheet extends BottomSheetDialogFragment {
     }
 
     private void initializeViews(View rootView) {
-        proceed = rootView.findViewById(R.id.bottom_sheet_proceed_button);
         agenda = rootView.findViewById(R.id.agenda_edit_text_bottom_sheet);
         location = rootView.findViewById(R.id.room_location_edit_text_bottom_sheet);
         duration = rootView.findViewById(R.id.meeting_duration_edit_text_bottom_sheet);
         reference = FirebaseDatabase.getInstance().getReference();
+        createButton = rootView.findViewById(R.id.create_room_button);
     }
 
     private void createRoom() {
@@ -74,12 +77,11 @@ public class MeetingDetailsBottomSheet extends BottomSheetDialogFragment {
             agenda.setText("");
             location.setText("");
             duration.setText("");
-            RoomActivity.getChirpAttendance().hideBottomSheet();
-            RoomActivity.getChirpAttendance().goToSendKey(Id);
+
         }
         else
         {
-            makeToast(proceed, "Enter All Fields");
+            makeToast(createButton, "Enter All Fields");
         }
     }
 
@@ -94,7 +96,7 @@ public class MeetingDetailsBottomSheet extends BottomSheetDialogFragment {
         assert pushId!= null;
         Id = pushId;
         Id = String.valueOf(generateHash(Id)).substring(0, 5);
-        reference.child("Admin").child(RoomActivity.getOrganizationKey()).child("rooms")
+        reference.child("").child(RoomActivity.getOrganizationKey()).child("rooms")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

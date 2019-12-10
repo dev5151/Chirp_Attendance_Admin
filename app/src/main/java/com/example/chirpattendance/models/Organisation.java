@@ -5,7 +5,7 @@ public class Organisation {
 
     String authKey;
     String authPassword;
-    HashMap<String, String> rooms = new HashMap<>();
+
 
     public Organisation() {
     }
@@ -31,11 +31,4 @@ public class Organisation {
         this.authPassword = authPassword;
     }
 
-    public HashMap<String, String> getRooms() {
-        return rooms;
-    }
-
-    public void setRooms(HashMap<String, String> rooms) {
-        this.rooms = rooms;
-    }
 }

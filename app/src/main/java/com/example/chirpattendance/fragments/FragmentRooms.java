@@ -1,4 +1,6 @@
 package com.example.chirpattendance.fragments;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +29,11 @@ import java.util.ArrayList;
 
 public class FragmentRooms extends Fragment {
 
-    private ImageView newRoom;
+    private String organizationName;
+    private String password;
+    private String uid;
+    private ImageView createRoom;
+    private SharedPreferences sharedPreferences;
     private FirebaseDatabase database;
     private ArrayList<RoomList> roomList = new ArrayList<>();
     private ArrayList<String> hashedKeyList = new ArrayList<>();
@@ -36,7 +42,7 @@ public class FragmentRooms extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private DatabaseReference reference;
     private ProgressBar progressBar;
-    private GridLayoutManager gridLayoutManager;
+
 
     public FragmentRooms() {
     }
@@ -47,30 +53,34 @@ public class FragmentRooms extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_rooms, container, false);
         initialize(rootView);
-        RoomActivity.getChirpAttendance().topBarSetText("All Meetings Taken By You");
-        newRoom.setOnClickListener(new View.OnClickListener() {
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+        getRoomList();
+
+        createRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createRoom();
+
             }
         });
-        recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setAdapter(adapter);
-        RoomActivity.getChirpAttendance().hideBottomNavigationView();
-        getRoomList();
+
         return rootView;
     }
 
     private void initialize(View rootView) {
-        newRoom = rootView.findViewById(R.id.new_room_button_fragment_rooms);
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();
         recyclerView = rootView.findViewById(R.id.recycler_room_list_view);
         adapter = new RoomListAdapter(roomList, hashedKeyList,getContext());
         layoutManager = new LinearLayoutManager(getContext());
-        gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         progressBar = rootView.findViewById(R.id.progress_bar_room);
+        sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        uid = sharedPreferences.getString("uid", null);
+        organizationName = sharedPreferences.getString("key", null);
+        password = sharedPreferences.getString("password", null);
+        createRoom = rootView.findViewById(R.id.create_room_button);
     }
+
 
     private void createRoom() {
         if(Long.parseLong(roomList.get(roomList.size()-1).getEndingUnixTime())*1000L < System.currentTimeMillis())
@@ -86,7 +96,7 @@ public class FragmentRooms extends Fragment {
 
     private void getRoomList() {
         progressBar.setVisibility(View.VISIBLE);
-        reference.child("Admin").child(RoomActivity.getOrganizationKey()).child("rooms").addValueEventListener(new ValueEventListener() {
+        reference.child("organization").child(organizationName).child("admin").child(uid).child("rooms").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 hashedKeyList.clear();

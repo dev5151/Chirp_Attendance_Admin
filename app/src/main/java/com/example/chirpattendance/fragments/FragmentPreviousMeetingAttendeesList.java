@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chirpattendance.R;
 import com.example.chirpattendance.activities.PreviousMeeting;
-import com.example.chirpattendance.activities.RoomActivity;
 import com.example.chirpattendance.adapters.AttendeesListAdapter;
 import com.example.chirpattendance.models.AttendeesDefaultersList;
 import com.google.firebase.database.DataSnapshot;
@@ -42,13 +41,12 @@ public class FragmentPreviousMeetingAttendeesList extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_attendees_defaulters_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_attendees_list, container, false);
 
         initialize(rootView);
-        getAttendeesList();
+        /*getAttendeesList();
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-        PreviousMeeting.getPreviousMeetingInterface().topBarSetText("Attendees List");
+        recyclerView.setAdapter(adapter);*/
         return rootView;
     }
 
@@ -81,12 +79,10 @@ public class FragmentPreviousMeetingAttendeesList extends Fragment {
                                 }
                             }
                             adapter.notifyDataSetChanged();
-                            progressBar.setVisibility(View.INVISIBLE);
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-                            progressBar.setVisibility(View.INVISIBLE);
                         }
                     });
                 }
@@ -94,7 +90,6 @@ public class FragmentPreviousMeetingAttendeesList extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                    progressBar.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -107,6 +102,6 @@ public class FragmentPreviousMeetingAttendeesList extends Fragment {
             adapter = new AttendeesListAdapter(attendeeList);
             uniqueNumber = new ArrayList<>();
             layoutManager = new LinearLayoutManager(getContext());
-            progressBar = rootView.findViewById(R.id.progress_bar_attendees_defaulters_list);
+
         }
     }

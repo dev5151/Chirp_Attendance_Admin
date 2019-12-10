@@ -54,9 +54,6 @@ public class AttendeesListAdapter extends RecyclerView.Adapter<AttendeesListAdap
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.attendee_name);
-            email = itemView.findViewById(R.id.attendee_email);
-            uniqueId = itemView.findViewById(R.id.attendee_unique_id);
         }
     }
 }

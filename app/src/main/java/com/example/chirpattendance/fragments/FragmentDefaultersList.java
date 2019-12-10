@@ -31,7 +31,6 @@ public class FragmentDefaultersList extends Fragment {
     private RecyclerView recyclerView;
     private AttendeesListAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    private ProgressBar progressBar;
 
     public FragmentDefaultersList() {
     }
@@ -40,17 +39,15 @@ public class FragmentDefaultersList extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_attendees_defaulters_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_attendees_list, container, false);
         initialize(rootView);
-        getDefaultersList();
+        //getDefaultersList();
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-        RoomActivity.getChirpAttendance().topBarSetText("Defaulters List");
         return rootView;
     }
 
     private void getDefaultersList() {
-            progressBar.setVisibility(View.VISIBLE);
             reference.child("rooms").child(RoomActivity.getHashedKey()).child("defaulters").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -77,19 +74,16 @@ public class FragmentDefaultersList extends Fragment {
                                 }
                             }
                             adapter.notifyDataSetChanged();
-                            progressBar.setVisibility(View.INVISIBLE);
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-                            progressBar.setVisibility(View.INVISIBLE);
                         }
                     });
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    progressBar.setVisibility(View.INVISIBLE);
                 }
             });
         }
@@ -101,6 +95,5 @@ public class FragmentDefaultersList extends Fragment {
         recyclerView = rootView.findViewById(R.id.recycler_attendees_defaulters_list_view);
         adapter = new AttendeesListAdapter(defaultersList);
         layoutManager = new LinearLayoutManager(getContext());
-        progressBar = rootView.findViewById(R.id.progress_bar_attendees_defaulters_list);
     }
 }

@@ -42,8 +42,6 @@ public class FragmentSendKey extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_create_room, container, false);
         initializeViews(rootView);
-        RoomActivity.getChirpAttendance().showBottomNavigationView();
-        RoomActivity.getChirpAttendance().topBarSetText("Send Room Key");
         microphone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,7 +84,6 @@ public class FragmentSendKey extends Fragment {
         error = chirp.start(true, false);
         microphone = rootView.findViewById(R.id.microphone_send_key_fragment);
         animationView = rootView.findViewById(R.id.send_room_key_animation_view);
-        bottomNavigationView = rootView.findViewById(R.id.bottom_navigation_bar_currrent_meeting);
     }
 
     private void stopSending() {
