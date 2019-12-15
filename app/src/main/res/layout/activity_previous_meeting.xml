@@ -5,32 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".activities.PreviousMeeting">
-
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout_previous_meeting"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabTextAppearance="@style/MineCustomTabText"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textAlignment="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tabTextColor="@color/black">
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/attendees" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/defaulters" />
-
-
-    </com.google.android.material.tabs.TabLayout>
+    tools:context=".activities.MeetingActivity">
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/previous_meeting_view_pager"
@@ -40,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tab_layout_previous_meeting">
+        app:layout_constraintTop_toTopOf="parent">
 
     </androidx.viewpager.widget.ViewPager>
 

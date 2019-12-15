@@ -17,11 +17,11 @@
     <string name="sign_up">Sign Up</string>
     <string name="details">DETAILS</string>
     <string name="room_name">Room Name</string>
-    <string name="location">Enter Location</string>
+    <string name="location">Location</string>
     <string name="meeting_details">Meeting Details</string>
-    <string name="duration">Enter Meeting Duration In Mins</string>
+    <string name="duration">Duration In Mins</string>
     <string name="meeting_duration">Enter Meeting Duration</string>
-    <string name="agenda">Enter Agenda</string>
+    <string name="agenda">Agenda</string>
     <string name="meeting">Meetings</string>
     <string name="organization_name">Organization Name</string>
     <string name="custom_key">Custom Key</string>

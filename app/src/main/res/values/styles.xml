@@ -11,7 +11,7 @@
 
 
     <style name="MineCustomTabText" parent="TextAppearance.AppCompat.Widget.PopupMenu.Header">
-        <item name="android:textSize">40sp</item>
+        <item name="android:textSize">30sp</item>
     </style>
 
 </resources>

@@ -104,6 +104,7 @@
         android:layout_height="60dp"
         android:background="@color/white"
         android:drawableEnd="@drawable/google"
+        android:drawablePadding="4dp"
         android:fontFamily="@font/red_hat_display_medium"
         android:text="Login with google"
         android:textColor="@color/black"

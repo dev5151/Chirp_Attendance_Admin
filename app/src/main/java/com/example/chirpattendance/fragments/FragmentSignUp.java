@@ -7,14 +7,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.example.chirpattendance.R;
 import com.example.chirpattendance.activities.LoginActivity;
 import com.example.chirpattendance.models.Organisation;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -55,7 +54,8 @@ public class FragmentSignUp extends Fragment {
                 }
                 else
                 {
-                    Toast.makeText(getContext(), "Enter all fields", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(SignUp, "Enter all the fields.", Snackbar.LENGTH_SHORT)
+                            .show();
                 }
             }
         });

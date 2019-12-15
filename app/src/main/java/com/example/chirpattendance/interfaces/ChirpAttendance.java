@@ -1,8 +1,12 @@
 package com.example.chirpattendance.interfaces;
 
  public interface ChirpAttendance {
-     void goToSendKey(String hashed_key);
-     void showBottomSheet();
-     void hideBottomSheet();
-     void goToPreviousMeetingActivity(String hashedKey);
+     void showMeetingDialogBox();
+     void goToMeeting(int i, String hashedKey);
+     void setOrganiztionName(String organiztionName);
+     void setAdminUid(String adminUid);
+     void dismissMeetingDialogBox();
+     void logout();
+     void openBottomSheet();
+     void closeBottomSheet();
 }

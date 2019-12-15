@@ -1,10 +1,12 @@
 package com.example.chirpattendance.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.chirpattendance.R;
+import com.example.chirpattendance.activities.MeetingActivity;
 import com.example.chirpattendance.activities.RoomActivity;
 import com.example.chirpattendance.adapters.AttendeesListAdapter;
 import com.example.chirpattendance.models.AttendeesDefaultersList;
@@ -31,6 +34,9 @@ public class FragmentDefaultersList extends Fragment {
     private RecyclerView recyclerView;
     private AttendeesListAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    private String hashedKey;
+    private SharedPreferences sharedPreferences;
+    private TextView back;
 
     public FragmentDefaultersList() {
     }
@@ -39,16 +45,34 @@ public class FragmentDefaultersList extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_attendees_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_defaulters_list, container, false);
         initialize(rootView);
-        //getDefaultersList();
+        getDefaultersList();
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MeetingActivity.getInterfaceMeetingActivity().backPresssed();
+            }
+        });
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         return rootView;
     }
 
+    private void initialize(View rootView) {
+        reference = FirebaseDatabase.getInstance().getReference();
+        back = rootView.findViewById(R.id.back);
+        uniqueNumber = new ArrayList<>();
+        defaultersList = new ArrayList<>();
+        recyclerView = rootView.findViewById(R.id.recycler_defaulters_list_view);
+        adapter = new AttendeesListAdapter(defaultersList);
+        layoutManager = new LinearLayoutManager(getContext());
+        sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        hashedKey = sharedPreferences.getString("MeetingHashedKey", null);
+    }
+
     private void getDefaultersList() {
-            reference.child("rooms").child(RoomActivity.getHashedKey()).child("defaulters").addValueEventListener(new ValueEventListener() {
+            reference.child("rooms").child(hashedKey).child("defaulters").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     uniqueNumber.clear();
@@ -87,13 +111,4 @@ public class FragmentDefaultersList extends Fragment {
                 }
             });
         }
-
-    private void initialize(View rootView) {
-        reference = FirebaseDatabase.getInstance().getReference();
-        uniqueNumber = new ArrayList<>();
-        defaultersList = new ArrayList<>();
-        recyclerView = rootView.findViewById(R.id.recycler_attendees_defaulters_list_view);
-        adapter = new AttendeesListAdapter(defaultersList);
-        layoutManager = new LinearLayoutManager(getContext());
-    }
 }

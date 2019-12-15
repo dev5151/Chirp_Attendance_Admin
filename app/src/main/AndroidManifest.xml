@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.PreviousMeeting"
+        <activity android:name=".activities.SplashActivty"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -28,11 +28,11 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.SplashActivty"
+            android:name=".activities.RoomActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.RoomActivity"
+            android:name=".activities.MeetingActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
     </application>

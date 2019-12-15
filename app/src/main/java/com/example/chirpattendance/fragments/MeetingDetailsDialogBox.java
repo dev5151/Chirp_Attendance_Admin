@@ -1,10 +1,16 @@
 package com.example.chirpattendance.fragments;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,8 +21,10 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.chirpattendance.R;
 import com.example.chirpattendance.activities.RoomActivity;
+import com.example.chirpattendance.models.Admin;
 import com.example.chirpattendance.models.UserRoom;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,23 +41,32 @@ public class MeetingDetailsDialogBox extends DialogFragment {
     private DatabaseReference reference;
     private String Id;
     private Button createButton;
+    private SharedPreferences sharedPreferences;
+    private String uid;
+    private FirebaseAuth auth;
 
     public MeetingDetailsDialogBox() {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onResume() {
+        super.onResume();
+        Window window = getDialog().getWindow();
+        if(window == null) return;
+        WindowManager.LayoutParams params = window.getAttributes();
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(params);
     }
 
-
-    @Nullable
+    @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        View rootView = inflater.inflate(R.layout.meeting_details_dialog_box, container, false);
-
-        initializeViews(rootView);
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        View layout = getActivity().getLayoutInflater().inflate(R.layout.meeting_details_dialog_box, null, false);
+        initializeViews(layout);
+        assert layout != null;
+        AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
+        b.setView(layout);
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,30 +75,35 @@ public class MeetingDetailsDialogBox extends DialogFragment {
             }
         });
 
-        return rootView;
+        return b.create();
     }
 
+
     private void initializeViews(View rootView) {
+        String key = RoomActivity.getOrganizationKey();
         agenda = rootView.findViewById(R.id.agenda_edit_text_bottom_sheet);
         location = rootView.findViewById(R.id.room_location_edit_text_bottom_sheet);
         duration = rootView.findViewById(R.id.meeting_duration_edit_text_bottom_sheet);
         reference = FirebaseDatabase.getInstance().getReference();
         createButton = rootView.findViewById(R.id.create_room_button);
+        sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        uid = sharedPreferences.getString("uid", null);
+        auth = FirebaseAuth.getInstance();
     }
 
     private void createRoom() {
         if(verifyFields())
         {
             pushRoomKey();
-            createUserRoom(location.getText().toString(), agenda.getText().toString(), Integer.parseInt(duration.getText().toString()));
+            createUserRoom(location.getText().toString(), agenda.getText().toString(), (int)Double.parseDouble(duration.getText().toString()));
             agenda.setText("");
             location.setText("");
             duration.setText("");
-
+            RoomActivity.getChirpAttendance().dismissMeetingDialogBox();
         }
         else
         {
-            makeToast(createButton, "Enter All Fields");
+            makeToast(createButton, "Enter all fields");
         }
     }
 
@@ -96,14 +118,32 @@ public class MeetingDetailsDialogBox extends DialogFragment {
         assert pushId!= null;
         Id = pushId;
         Id = String.valueOf(generateHash(Id)).substring(0, 5);
-        reference.child("").child(RoomActivity.getOrganizationKey()).child("rooms")
+
+        reference.child("organization").child(RoomActivity.getOrganizationKey()).child("admin").child(uid).child("rooms")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         while(dataSnapshot.child(Id).exists()) {
                             Id = String.valueOf(generateHash(Id)).substring(0, 5);
                         }
-                        reference.child("Admin").child(RoomActivity.getOrganizationKey()).child("rooms")
+
+                        reference.child("organization").child(RoomActivity.getOrganizationKey()).child("admin").child(uid).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(!dataSnapshot.child("email").exists())
+                                {
+                                    reference.child("organization").child(RoomActivity.getOrganizationKey()).child("admin").child(uid).setValue
+                                            (new Admin(auth.getCurrentUser().getEmail(), auth.getCurrentUser().getDisplayName()));
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        reference.child("organization").child(RoomActivity.getOrganizationKey()).child("admin").child(uid).child("rooms")
                                 .push().setValue(Id);
                     }
                     @Override

@@ -63,26 +63,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/back"
                 app:layout_constraintVertical_bias="0.00999999" />
 
-            <TextView
-                android:id="@+id/defaulters_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/red_hat_display_medium"
-                android:text="Defau"
-                android:textColor="@color/grey"
-                android:textSize="40sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/textView12"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/attendees_text_view" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.appcompat.widget.Toolbar>
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_attendees_defaulters_list_view"
+        android:id="@+id/recycler_attendees_list_view"
         android:layout_width="match_parent"
         tools:listitem="@layout/recycler_attendees_defaulters_list"
         android:layout_height="0dp"

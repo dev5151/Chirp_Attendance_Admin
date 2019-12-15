@@ -1,10 +1,12 @@
 package com.example.chirpattendance.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chirpattendance.R;
-import com.example.chirpattendance.activities.PreviousMeeting;
+import com.example.chirpattendance.activities.MeetingActivity;
 import com.example.chirpattendance.adapters.AttendeesListAdapter;
 import com.example.chirpattendance.models.AttendeesDefaultersList;
 import com.google.firebase.database.DataSnapshot;
@@ -32,7 +34,9 @@ public class FragmentPreviousMeetingAttendeesList extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<AttendeesDefaultersList> attendeeList;
     private ArrayList<String> uniqueNumber;
-    private ProgressBar progressBar;
+    private String hashedKey;
+    private SharedPreferences sharedPreferences;
+    private TextView back;
 
     public FragmentPreviousMeetingAttendeesList() {
     }
@@ -42,17 +46,33 @@ public class FragmentPreviousMeetingAttendeesList extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_attendees_list, container, false);
-
         initialize(rootView);
-        /*getAttendeesList();
+        getAttendeesList();
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MeetingActivity.getInterfaceMeetingActivity().backPresssed();
+            }
+        });
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);*/
+        recyclerView.setAdapter(adapter);
         return rootView;
     }
 
+    private void initialize (View rootView){
+        reference = FirebaseDatabase.getInstance().getReference();
+        attendeeList = new ArrayList<>();
+        recyclerView = rootView.findViewById(R.id.recycler_attendees_list_view);
+        adapter = new AttendeesListAdapter(attendeeList);
+        uniqueNumber = new ArrayList<>();
+        layoutManager = new LinearLayoutManager(getContext());
+        sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        hashedKey = sharedPreferences.getString("MeetingHashedKey", null);
+        back = rootView.findViewById(R.id.back);
+    }
+
     private void getAttendeesList() {
-        progressBar.setVisibility(View.VISIBLE);
-        reference.child("rooms").child(PreviousMeeting.getRoomKey()).child("attendees").addValueEventListener(new ValueEventListener() {
+        reference.child("rooms").child(hashedKey).child("attendees").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 {
@@ -94,14 +114,4 @@ public class FragmentPreviousMeetingAttendeesList extends Fragment {
         });
 
     }
-
-        private void initialize (View rootView){
-            reference = FirebaseDatabase.getInstance().getReference();
-            attendeeList = new ArrayList<>();
-            recyclerView = rootView.findViewById(R.id.recycler_attendees_defaulters_list_view);
-            adapter = new AttendeesListAdapter(attendeeList);
-            uniqueNumber = new ArrayList<>();
-            layoutManager = new LinearLayoutManager(getContext());
-
-        }
-    }
+}
