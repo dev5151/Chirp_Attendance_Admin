@@ -73,6 +73,11 @@ public class LoginActivity extends AppCompatActivity {
                 fragmentStack.push(new FragmentSignUp());
                 fragmentTransition(fragmentStack.peek());
             }
+
+            @Override
+            public void goTOGoogleAuthFragment() {
+
+            }
         };
     }
 

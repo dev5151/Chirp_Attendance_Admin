@@ -10,9 +10,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import com.example.chirpattendance.activities.LoginActivity;
 import com.example.chirpattendance.activities.RoomActivity;
 import com.example.chirpattendance.R;
@@ -78,18 +82,18 @@ public class FragmentLogin extends Fragment {
                 }
                 else
                 {
-                    makeSnackbar(login, "Enter all text fields");
+                    Toast.makeText(getActivity(),"Enter All Fields",Toast.LENGTH_LONG).show();
                 }
             }
         });
 
 
-        googleButton.setOnClickListener(new View.OnClickListener() {
+ /*       googleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 googleLoginProcess();
             }
-        });
+        });*/
 
         return rootView;
     }
@@ -111,7 +115,7 @@ public class FragmentLogin extends Fragment {
         auth = FirebaseAuth.getInstance();
     }
 
-    private void googleLoginProcess () {
+ /*   private void googleLoginProcess () {
         Intent signInIntent = googleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -129,7 +133,8 @@ public class FragmentLogin extends Fragment {
             }
         }
     }
-
+*/
+/*
     private void firebaseAuthWithGoogle (GoogleSignInAccount acct){
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         auth.signInWithCredential(credential)
@@ -155,6 +160,7 @@ public class FragmentLogin extends Fragment {
                     }
                 });
     }
+*/
 
 
     public boolean verifyFields() {
@@ -177,14 +183,15 @@ public class FragmentLogin extends Fragment {
                 if (dataSnapshot.child(OrganizationName).exists() &&
                         dataSnapshot.child(OrganizationName).child("authPassword").getValue().equals(Password))
                 {
-                    googleButton.setVisibility(View.VISIBLE);
                     login.setVisibility(View.GONE);
                     organizationName.setEnabled(false);
                     password.setEnabled(false);
+                    fragmentSwitch();
+
                 }
                 else {
 
-                    makeSnackbar(login, "Wrong Details Entered");
+                    Toast.makeText(getActivity(),"Wrong Details Entered",Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -199,4 +206,13 @@ public class FragmentLogin extends Fragment {
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT)
                 .show();
     }
+
+    public void fragmentSwitch(){
+        FragmentGoogleAuth fragmentGoogleAuth=new FragmentGoogleAuth();
+        FragmentManager fragmentManager=getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.login_signup_frame,fragmentGoogleAuth)
+                .commit();
+    }
+
 }

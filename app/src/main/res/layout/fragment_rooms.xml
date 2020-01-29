@@ -78,7 +78,6 @@
                 app:layout_constraintEnd_toEndOf="@+id/button"
                 app:layout_constraintHorizontal_bias="0.46"
                 app:layout_constraintStart_toStartOf="@+id/button"
-                app:layout_constraintTop_toTopOf="@+id/button"
                 app:srcCompat="@drawable/ic_add_black_24dp"
                 tools:ignore="VectorDrawableCompat" />
 

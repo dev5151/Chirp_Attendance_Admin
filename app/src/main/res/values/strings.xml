@@ -25,4 +25,6 @@
     <string name="meeting">Meetings</string>
     <string name="organization_name">Organization Name</string>
     <string name="custom_key">Custom Key</string>
+    <string name="get_started">Get Started</string>
+    <string name="continue_with">Continue With</string>
 </resources>

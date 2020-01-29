@@ -20,16 +20,18 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/fragment_text_view_organization_name"
+        app:layout_constraintHorizontal_bias="0.139"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintVertical_bias="0.193" />
 
     <EditText
         android:id="@+id/fragment_text_view_organization_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/custom_edit_text"
         android:gravity="center|start"
         android:paddingStart="12dp"
@@ -43,33 +45,38 @@
 
     <EditText
         android:id="@+id/fragment_login_password_text_view"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/custom_edit_text"
         android:gravity="center|start"
-        android:paddingStart="12dp"
         android:hint="Password"
-        android:textColorHint="@color/black"
+        android:paddingStart="12dp"
         android:textColor="@color/black"
+        android:textColorHint="@color/black"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/fragment_text_view_organization_name"
-        app:layout_constraintStart_toStartOf="@+id/fragment_text_view_organization_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_text_view_organization_name" />
 
     <Button
         android:id="@+id/fragment_login_button_login"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="59dp"
         android:layout_marginTop="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:background="@color/dark_blue"
         android:text="@string/login"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/fragment_login_password_text_view"
-        app:layout_constraintStart_toStartOf="@+id/fragment_login_password_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.455"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_login_password_text_view"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.026" />
 
     <TextView
         android:id="@+id/textView15"
@@ -90,7 +97,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
-        android:fontFamily="@font/red_hat_display_medium"
+        android:fontFamily="@font/red_hat_bold"
         android:text="@string/sign_up"
         android:textColor="@color/dark_blue"
         android:textSize="16sp"

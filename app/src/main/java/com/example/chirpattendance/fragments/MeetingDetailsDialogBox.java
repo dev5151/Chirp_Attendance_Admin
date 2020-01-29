@@ -126,7 +126,6 @@ public class MeetingDetailsDialogBox extends DialogFragment {
                         while(dataSnapshot.child(Id).exists()) {
                             Id = String.valueOf(generateHash(Id)).substring(0, 5);
                         }
-
                         reference.child("organization").child(RoomActivity.getOrganizationKey()).child("admin").child(uid).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
