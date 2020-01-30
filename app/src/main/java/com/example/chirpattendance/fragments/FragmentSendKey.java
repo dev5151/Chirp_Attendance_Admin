@@ -60,29 +60,7 @@ public class FragmentSendKey extends Fragment {
             @Override
             public void onClick(View view) {
                 startSending(hashedKey);
-               /* animationView.setSpeed(2);
-                animationView.setVisibility(View.VISIBLE);
-                animationView.playAnimation();
-                animationView.addAnimatorListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animator) {
-                    }
 
-                    @Override
-                    public void onAnimationEnd(Animator animator) {
-                        animationView.setVisibility(View.INVISIBLE);
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animator) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animator) {
-
-                    }
-                });*/
             }
         });
 
