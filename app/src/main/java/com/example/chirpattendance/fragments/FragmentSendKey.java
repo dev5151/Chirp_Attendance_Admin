@@ -21,8 +21,12 @@ import com.example.chirpattendance.activities.MeetingActivity;
 import com.example.chirpattendance.activities.RoomActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.nio.charset.Charset;
+
 import io.chirp.chirpsdk.ChirpSDK;
+import io.chirp.chirpsdk.interfaces.ChirpEventListener;
 import io.chirp.chirpsdk.models.ChirpError;
 
 public class FragmentSendKey extends Fragment {
@@ -38,6 +42,7 @@ public class FragmentSendKey extends Fragment {
     private LottieAnimationView animationView;
     private SharedPreferences sharedPreferences;
     private TextView bypassKey;
+    ChirpEventListener chirpEventListener;
 
     public FragmentSendKey() {
     }
@@ -52,6 +57,8 @@ public class FragmentSendKey extends Fragment {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                animationView.pauseAnimation();
+                animationView.setVisibility(View.INVISIBLE);
                 MeetingActivity.getInterfaceMeetingActivity().backPresssed();
             }
         });
@@ -59,17 +66,55 @@ public class FragmentSendKey extends Fragment {
         microphone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                animationView.setVisibility(View.VISIBLE);
+                animationView.playAnimation();
                 startSending(hashedKey);
-
+                chirp.setListener(chirpEventListener);
+                chirp.start();
             }
         });
+
+        chirpEventListener = new ChirpEventListener() {
+            @Override
+            public void onSystemVolumeChanged(float v, float v1) {
+
+            }
+
+            @Override
+            public void onStateChanged(int i, int i1) {
+
+            }
+
+            @Override
+            public void onReceiving(int i) {
+
+            }
+
+            @Override
+            public void onReceived(@org.jetbrains.annotations.Nullable byte[] bytes, int i) {
+
+            }
+
+            @Override
+            public void onSent(@NotNull byte[] bytes, int i) {
+
+                animationView.pauseAnimation();
+                animationView.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onSending(@NotNull byte[] bytes, int i) {
+                animationView.setVisibility(View.VISIBLE);
+                animationView.playAnimation();
+            }
+        };
 
         return rootView;
 
     }
 
     private void initializeViews(View rootView) {
-        sharedPreferences =  getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         hashedKey = sharedPreferences.getString("MeetingHashedKey", null);
         chirp = new ChirpSDK(getActivity(), CHIRP_APP_KEY, CHIRP_APP_SECRET);
         error = chirp.setConfig(CHIRP_APP_CONFIG);
@@ -79,6 +124,7 @@ public class FragmentSendKey extends Fragment {
         back = rootView.findViewById(R.id.back);
         bypassKey = rootView.findViewById(R.id.bypass_key_text_view);
         bypassKey.setText(RoomActivity.getHashedKey());
+        animationView = rootView.findViewById(R.id.animationView);
     }
 
     private void stopSending() {
@@ -101,9 +147,11 @@ public class FragmentSendKey extends Fragment {
         }
     }
 
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        animationView.pauseAnimation();
         stopSending();
     }
 

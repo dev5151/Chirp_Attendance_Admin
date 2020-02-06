@@ -25,6 +25,7 @@ import java.util.ArrayList;
 public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.ViewHolder> {
 
     private ArrayList<AttendeesDefaultersList> requestList;
+    private static ArrayList<String> checkedList;
     private ArrayList<String> hashedKey;
     private DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
@@ -63,8 +64,10 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
                         {
                             if(snapshot.getValue().equals(Studentkey))
                             {
-                                reference.child("rooms").child(RoomActivity.getHashedKey()).child("attendees").child(snapshot.getKey()).setValue(Studentkey);
-                                reference.child("rooms").child(RoomActivity.getHashedKey()).child("requests").child(snapshot.getKey()).setValue(null);
+                                checkedList.add(Studentkey);
+                                /*reference.child("rooms").child(RoomActivity.getHashedKey()).child("attendees").child(snapshot.getKey()).setValue(Studentkey);
+                                reference.child("rooms").child(RoomActivity.getHashedKey()).child("requests").child(snapshot.getKey()).setValue(null);*/
+
                             }
                         }
                     }
@@ -102,6 +105,7 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
             less = itemView.findViewById(R.id.less_text_view);
             checkBox = itemView.findViewById(R.id.checkBox);
 
+
             more.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -119,6 +123,8 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
                     more.setVisibility(View.VISIBLE);
                 }
             });
+
+
 
         }
     }

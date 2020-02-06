@@ -10,8 +10,7 @@ import com.example.chirpattendance.R;
 import com.example.chirpattendance.fragments.FragmentAttendeesList;
 import com.example.chirpattendance.fragments.FragmentDefaultersList;
 import com.example.chirpattendance.fragments.FragmentRequestsList;
-import com.example.chirpattendance.fragments.FragmentRooms;
-import com.example.chirpattendance.viewPager.TabSwitchAdapter;
+import com.example.chirpattendance.adapters.TabSwitchAdapter;
 
 public class TabSwitch extends AppCompatActivity {
 

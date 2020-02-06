@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -39,6 +40,7 @@ public class FragmentRequestsList extends Fragment {
     private SharedPreferences sharedPreferences;
     private CheckBox checkBox;
     private TextView back;
+    private Button submit;
 
     public FragmentRequestsList() {
     }
@@ -56,6 +58,7 @@ public class FragmentRequestsList extends Fragment {
                 MeetingActivity.getInterfaceMeetingActivity().backPresssed();
             }
         });
+
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         return rootView;
@@ -65,6 +68,7 @@ public class FragmentRequestsList extends Fragment {
         reference = FirebaseDatabase.getInstance().getReference();
         uniqueNumber = new ArrayList<>();
         requestList = new ArrayList<>();
+        submit=rootView.findViewById(R.id.submit);
         recyclerView = rootView.findViewById(R.id.recycler_attendees_list_view);
         adapter = new RequestListAdapter(requestList, uniqueNumber);
         layoutManager = new LinearLayoutManager(getContext());

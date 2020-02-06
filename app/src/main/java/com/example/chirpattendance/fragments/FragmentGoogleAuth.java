@@ -51,6 +51,7 @@ public class FragmentGoogleAuth extends Fragment {
     private LinearLayout linearLayout;
     private SharedPreferences.Editor editor;
     private ConstraintLayout constraintLayout;
+    private SharedPreferences sharedPreferences;
 
 
     public FragmentGoogleAuth() {
@@ -63,7 +64,11 @@ public class FragmentGoogleAuth extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_google_auth, container, false);
         initialize(rootView);
 
+        sharedPreferences=getContext().getSharedPreferences("Admin Details",MODE_PRIVATE);
+        organizationName=sharedPreferences.getString("organizationName",null);
+
         try{
+            mAuth=FirebaseAuth.getInstance();
             final FirebaseUser currentUser = mAuth.getCurrentUser();
         }catch (Exception e){
             Log.e("Error","ERROR");
@@ -133,13 +138,14 @@ public class FragmentGoogleAuth extends Fragment {
                         if (task.isSuccessful()) {
                             final FirebaseUser currentUser = mAuth.getCurrentUser();
                             String uid = mAuth.getCurrentUser().getUid();
+                            String email=mAuth.getCurrentUser().getEmail();
                             final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("organization");
-                            reference.child(organizationName).child("admin").child(uid).child("email").setValue(currentUser.getEmail());
-                            reference.child(organizationName).child("admin").child(uid).child("name").setValue(currentUser.getDisplayName());
+                            reference.child("organization").child(organizationName).child("admin").child(uid).child("email").setValue(email);
+                            reference.child("organization").child(organizationName).child("admin").child(uid).child("name").setValue(currentUser.getDisplayName());
                             progressBar.setVisibility(View.GONE);
                             Snackbar.make(constraintLayout, "SIGN IN SUCCESS", Snackbar.LENGTH_LONG).show();
-                            preferences = Objects.requireNonNull(getActivity()).getSharedPreferences("Admin Details", MODE_PRIVATE);
-                            SharedPreferences.Editor editor = preferences.edit();
+                            sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("Admin Details", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("uid", uid);
                             Intent intent = new Intent(getActivity(), RoomActivity.class);
                             getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -154,6 +160,7 @@ public class FragmentGoogleAuth extends Fragment {
                     }
                 });
     }
+
 
 
 }

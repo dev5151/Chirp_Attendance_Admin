@@ -70,13 +70,24 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_attendees_list_view"
-        android:layout_width="match_parent"
-        tools:listitem="@layout/recycler_requests_list_item"
-        android:layout_height="0dp"
+        android:layout_width="399dp"
+        android:layout_height="565dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/attendees_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/attendees_toolbar"
+        app:layout_constraintVertical_bias="0.163"
+        tools:listitem="@layout/recycler_requests_list_item" />
 
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="153dp"
+        android:layout_height="58dp"
+
+        android:text="Submit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recycler_attendees_list_view" />
 </androidx.constraintlayout.widget.ConstraintLayout>

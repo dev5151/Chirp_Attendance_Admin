@@ -51,10 +51,11 @@ public class FragmentLogin extends Fragment {
     private FirebaseDatabase database;
     private DatabaseReference reference;
     private SharedPreferences preferences;
-    private SharedPreferences.Editor editor;
     private GoogleSignInOptions gso;
     private GoogleSignInClient googleSignInClient;
     private FirebaseAuth auth;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
 
     public FragmentLogin() {
@@ -85,6 +86,8 @@ public class FragmentLogin extends Fragment {
                     Toast.makeText(getActivity(),"Enter All Fields",Toast.LENGTH_LONG).show();
                 }
             }
+
+
         });
 
 
@@ -113,6 +116,8 @@ public class FragmentLogin extends Fragment {
                 .build();
         googleSignInClient = GoogleSignIn.getClient(Objects.requireNonNull(getActivity()), gso);
         auth = FirebaseAuth.getInstance();
+        sharedPreferences=getActivity().getSharedPreferences("Admin Details",Context.MODE_PRIVATE);
+        editor=sharedPreferences.edit();
     }
 
  /*   private void googleLoginProcess () {
@@ -184,6 +189,8 @@ public class FragmentLogin extends Fragment {
                         dataSnapshot.child(OrganizationName).child("authPassword").getValue().equals(Password))
                 {
                     login.setVisibility(View.GONE);
+                    editor.putString("organizationName",organizationName.getText().toString());
+                    editor.apply();
                     organizationName.setEnabled(false);
                     password.setEnabled(false);
                     fragmentSwitch();

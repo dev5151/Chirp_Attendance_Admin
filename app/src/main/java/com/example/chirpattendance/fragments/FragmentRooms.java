@@ -1,4 +1,5 @@
 package com.example.chirpattendance.fragments;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -63,6 +64,7 @@ public class FragmentRooms extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_rooms, container, false);
         initialize(rootView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true));
         recyclerView.setAdapter(adapter);
         getRoomList();
 
@@ -77,20 +79,14 @@ public class FragmentRooms extends Fragment {
         createRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(roomList.size()!=0)
-                {
-                    RoomList room = roomList.get(roomList.size()-1);
-                    if(Long.parseLong(room.getEndingUnixTime())*1000L < System.currentTimeMillis())
-                    {
+                if (roomList.size() != 0) {
+                    RoomList room = roomList.get(roomList.size() - 1);
+                    if (Long.parseLong(room.getEndingUnixTime()) * 1000L < System.currentTimeMillis()) {
                         RoomActivity.getChirpAttendance().showMeetingDialogBox();
-                    }
-                    else
-                    {
+                    } else {
                         Snackbar.make(createRoom, "You are already in a meeting", Snackbar.LENGTH_SHORT).show();
                     }
-                }
-                else
-                {
+                } else {
                     RoomActivity.getChirpAttendance().showMeetingDialogBox();
                 }
             }
@@ -121,8 +117,7 @@ public class FragmentRooms extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 hashedKeyList.clear();
-                for(DataSnapshot postSnapshot : dataSnapshot.getChildren())
-                {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     String hashedKey = postSnapshot.getValue().toString();
                     hashedKeyList.add(hashedKey);
                 }
@@ -131,10 +126,8 @@ public class FragmentRooms extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         roomList.clear();
-                        for( String hashKey : hashedKeyList)
-                        {
-                            if(dataSnapshot.child(hashKey).exists())
-                            {
+                        for (String hashKey : hashedKeyList) {
+                            if (dataSnapshot.child(hashKey).exists()) {
                                 DataSnapshot snap = dataSnapshot.child(hashKey);
                                 RoomList room = new RoomList(snap.child("location").getValue().toString(),
                                         snap.child("agenda").getValue().toString(),

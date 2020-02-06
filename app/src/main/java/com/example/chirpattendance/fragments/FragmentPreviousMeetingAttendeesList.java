@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chirpattendance.R;
+import com.example.chirpattendance.Utils.CSVUtils;
 import com.example.chirpattendance.activities.MeetingActivity;
 import com.example.chirpattendance.adapters.AttendeesListAdapter;
 import com.example.chirpattendance.models.AttendeesDefaultersList;
@@ -40,6 +42,7 @@ public class FragmentPreviousMeetingAttendeesList extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<AttendeesDefaultersList> attendeeList;
     private ArrayList<String> uniqueNumber;
+    private ArrayList<String>list;
     private String hashedKey;
     private SharedPreferences sharedPreferences;
     private TextView back, csv;
@@ -64,6 +67,7 @@ public class FragmentPreviousMeetingAttendeesList extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
+                Log.d("CLICK","CLICKED");
                 try {
                     generateCsv();
                 } catch (IOException e) {
@@ -112,6 +116,7 @@ public class FragmentPreviousMeetingAttendeesList extends Fragment {
                                             snap.child("email").getValue().toString(),
                                             snap.child("user_id").getValue().toString());
                                     attendeeList.add(attendee);
+                                    list.add(snap.child("user_id").getValue().toString());
 
                                     final ArrayList<String>arrayList=new ArrayList<>();
                                     arrayList.add(attendee.getUniqueId());
@@ -137,12 +142,11 @@ public class FragmentPreviousMeetingAttendeesList extends Fragment {
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 private void generateCsv() throws IOException {
-    FileWriter writer = null;
-        writer = new FileWriter("/Users/artur/tmp/csv/sto1.csv");
-        writer.write(collect);
-        writer.close();
-    String collect = arrayList.getUniqueId().stream().collect(Collectors.joining(","));
-}
+    String csvFile = "/downloads/attendance/csv/abc.csv";
+    FileWriter writer = new FileWriter(csvFile);
+    list.add("blablabla");
+    CSVUtils.writeLine(writer, list);
     }
+}
 
 
