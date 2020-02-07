@@ -66,6 +66,8 @@ public class FragmentRooms extends Fragment {
         initialize(rootView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true));
         recyclerView.setAdapter(adapter);
+        adapter.notifyItemInserted(0);
+        recyclerView.scrollToPosition(0);
         getRoomList();
 
 
